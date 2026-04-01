@@ -645,16 +645,9 @@ body.menu-open .burger-btn .burger-btn__line:nth-child(3) {
   align-items: start;
 }
 
-@media (min-width: 640px) {
+@media (min-width: 560px) {
   .co-productions {
     grid-template-columns: repeat(2, 1fr);
-    gap: 0;
-  }
-}
-
-@media (min-width: 960px) {
-  .co-productions {
-    grid-template-columns: repeat(4, 1fr);
     gap: 0;
   }
 }
@@ -685,6 +678,11 @@ body.menu-open .burger-btn .burger-btn__line:nth-child(3) {
   width: 100%;
   aspect-ratio: 1 / 1;
   background: #141414;
+}
+
+/* 16:9 stills (e.g. music video) — match frame so the image fills the tile without cropping */
+.co-production__media--16x9 {
+  aspect-ratio: 16 / 9;
 }
 
 .co-production__media img {
@@ -1003,6 +1001,10 @@ body.menu-open .burger-btn .burger-btn__line:nth-child(3) {
   margin: 0 auto;
   padding: 3.5rem 1.75rem 4rem;
   border-top: 1px solid #222;
+}
+
+.panel.panel--experience {
+  max-width: min(90rem, 100%);
 }
 
 .panel.reveal-on-scroll > * {
