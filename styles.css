@@ -680,11 +680,6 @@ body.menu-open .burger-btn .burger-btn__line:nth-child(3) {
   background: #141414;
 }
 
-/* 16:9 stills (e.g. music video) — match frame so the image fills the tile without cropping */
-.co-production__media--16x9 {
-  aspect-ratio: 16 / 9;
-}
-
 .co-production__media img {
   position: absolute;
   inset: 0;
