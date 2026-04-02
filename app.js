@@ -14,6 +14,9 @@
   const carouselBlock = document.getElementById("galleryCarouselBlock");
   const allWrap = document.getElementById("galleryAllWrap");
   const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const CAROUSEL_AUTO_MS = 5500;
+  let carouselAutoplayId = null;
+  let carouselAutoplayPaused = false;
 
   function buildGalleryItems() {
     const items = [];
@@ -58,11 +61,41 @@
     updateCarousel();
   }
 
+  function stopCarouselAutoplay() {
+    if (carouselAutoplayId != null) {
+      clearInterval(carouselAutoplayId);
+      carouselAutoplayId = null;
+    }
+  }
+
+  function carouselAutoplayTick() {
+    if (reduceMotion || carouselAutoplayPaused) return;
+    if (carouselBlock && carouselBlock.hidden) return;
+    if (document.visibilityState === "hidden") return;
+    goCarousel(1);
+  }
+
+  function startCarouselAutoplay() {
+    stopCarouselAutoplay();
+    if (reduceMotion || !viewport) return;
+    carouselAutoplayId = window.setInterval(carouselAutoplayTick, CAROUSEL_AUTO_MS);
+  }
+
+  function restartCarouselAutoplay() {
+    startCarouselAutoplay();
+  }
+
   if (carouselPrev) {
-    carouselPrev.addEventListener("click", () => goCarousel(-1));
+    carouselPrev.addEventListener("click", () => {
+      goCarousel(-1);
+      restartCarouselAutoplay();
+    });
   }
   if (carouselNext) {
-    carouselNext.addEventListener("click", () => goCarousel(1));
+    carouselNext.addEventListener("click", () => {
+      goCarousel(1);
+      restartCarouselAutoplay();
+    });
   }
 
   const viewport = document.querySelector(".gallery__viewport");
@@ -71,10 +104,29 @@
       if (e.key === "ArrowLeft") {
         e.preventDefault();
         goCarousel(-1);
+        restartCarouselAutoplay();
       } else if (e.key === "ArrowRight") {
         e.preventDefault();
         goCarousel(1);
+        restartCarouselAutoplay();
       }
+    });
+
+    viewport.addEventListener("pointerenter", () => {
+      carouselAutoplayPaused = true;
+    });
+    viewport.addEventListener("pointerleave", () => {
+      carouselAutoplayPaused = false;
+    });
+    viewport.addEventListener("focusin", () => {
+      carouselAutoplayPaused = true;
+    });
+    viewport.addEventListener("focusout", () => {
+      requestAnimationFrame(() => {
+        if (!viewport.contains(document.activeElement)) {
+          carouselAutoplayPaused = false;
+        }
+      });
     });
   }
 
@@ -98,6 +150,9 @@
     }
     if (!expanded) {
       updateCarousel();
+      startCarouselAutoplay();
+    } else {
+      stopCarouselAutoplay();
     }
   }
 
@@ -125,6 +180,7 @@
   }
 
   updateCarousel();
+  startCarouselAutoplay();
 
   if (filterCount) {
     filterCount.textContent = `${GALLERY_TOTAL} / ${GALLERY_TOTAL}`;
