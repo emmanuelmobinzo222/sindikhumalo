@@ -1,0 +1,11 @@
+# Local / tooling — not needed for the live site
+_pptx_extract/
+
+# Raw exports in repo root (site uses assets/grid instead)
+WhatsApp*.jpg
+WhatsApp*.mp4
+
+# OS noise
+.DS_Store
+Thumbs.db
+desktop.ini
