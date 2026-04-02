@@ -774,7 +774,8 @@ body.menu-open .burger-btn .burger-btn__line:nth-child(3) {
 .gallery__carousel-img {
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain;
+  object-position: center;
   display: block;
   filter: contrast(1.02) saturate(0.95);
 }
@@ -904,7 +905,8 @@ body.menu-open .burger-btn .burger-btn__line:nth-child(3) {
 .gallery__cell img {
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain;
+  object-position: center;
   display: block;
   filter: contrast(1.02) saturate(0.95);
   transition: transform 0.65s var(--ease-out);

@@ -1,5 +1,6 @@
 (function () {
-  const GRID_JPG_COUNT = 18;
+  const GRID_IMAGE_COUNT = 33;
+  const GRID_PNG_START_INDEX = 19;
   const grid = document.getElementById("galleryGrid");
   const filterCount = document.getElementById("filterCount");
   const carouselImg = document.getElementById("galleryCarouselImg");
@@ -16,10 +17,11 @@
 
   function buildGalleryItems() {
     const items = [];
-    for (let i = 1; i <= GRID_JPG_COUNT; i++) {
+    for (let i = 1; i <= GRID_IMAGE_COUNT; i++) {
       const n = String(i).padStart(2, "0");
+      const ext = i >= GRID_PNG_START_INDEX ? "png" : "jpg";
       items.push({
-        src: `assets/grid/img${n}.jpg`,
+        src: `assets/grid/img${n}.${ext}`,
         alt: `Location and production still ${i}`,
       });
     }
